@@ -9,7 +9,7 @@ All mockups are stored in the `UI/` folder.
 
 ## 1. Landing Page
 
-![Landing Page](./Requirements%20Specification/UI/LandingPage.png)
+![Landing Page](./UI/LandingPage.png)
 
 ---
 
