@@ -15,60 +15,60 @@ All mockups are stored in the `UI/` folder.
 
 ## 2. SignUp Page
 
-![SignUp Page](./Requirements%20Specification/UI/SignUp.png)
+![SignUp Page](./UI/SignUp.png)
 
 ---
 
 ## 3. SignIn Page
 
-![SignIn Page](./Requirements%20Specification/UI/SignIn.png)
+![SignIn Page](./UI/SignIn.png)
 
 ---
 
 ## 4. Home Page
 
-![Home Page](./Requirements%20Specification/UI/Home.png)
+![Home Page](./UI/Home.png)
 
 ---
 
 ## 5. Portfolio Page
 
-![Portfolio Page](./Requirements%20Specification/UI/Portfolio.png)
+![Portfolio Page](./UI/Portfolio.png)
 
 ---
 
 ## 6. Transaction History Page
 
-![Transaction History Page](./Requirements%20Specification/UI/TransactionHistory.png)
+![Transaction History Page](./UI/TransactionHistory.png)
 
 ---
 
 ## 7. Stock Search/Buy (Candlestick Chart) Page
 
-![Trade Page](./Requirements%20Specification/UI/Trade.png)
+![Trade Page](./UI/Trade.png)
 
 ---
 
 ## 8. Quiz Earn Points Dashboard
 
-![Earn Points Dashboard](./Requirements%20Specification/UI/EarnPointsDashboard.png)
+![Earn Points Dashboard](./UI/EarnPointsDashboard.png)
 
 ---
 
 ## 9. Earn Points – Quiz Play
 
-![Quiz Play](./Requirements%20Specification/UI/EarnPointsQuiz.png)
+![Quiz Play](./UI/EarnPointsQuiz.png)
 
 ---
 
 ## 10. Quiz Leaderboard Page
 
-![Leaderboard](./Requirements%20Specification/UI/Leaderboard.png)
+![Leaderboard](./UI/Leaderboard.png)
 
 ---
 
 ## 11. User Profile Page
 
-![User Profile](./Requirements%20Specification/UI/UserProfile.png)
+![User Profile](./UI/UserProfile.png)
 
 ---
