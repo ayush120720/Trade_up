@@ -1,7 +1,7 @@
 # 📊 Gantt Chart with Timelines
 
 ## Gantt Chart Image
-![Gantt Chart](./images/Gantt%20Chart.png)
+![Gantt Chart](./image/Gantt%20Chart.png)
 
 ---
 
