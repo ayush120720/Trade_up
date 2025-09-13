@@ -1,11 +1,11 @@
-# 📊 Gantt Chart with Timelines
+#  Gantt Chart with Timelines
 
 ## Gantt Chart Image
 ![Gantt Chart](./image/Gantt%20Chart.png)
 
 ---
 
-## 📌 Milestones & Deadlines
+##  Milestones & Deadlines
 
 ### M1 — Project Proposal — Deadline: 26-Aug-2025
 **Short:** Finalize idea, scope, roles and produce proposal PDF.  
