@@ -9,10 +9,9 @@ They include the Gantt chart, dashboard screenshot, and Scrum snapshots (Sprint 
 
 | Image | Description |
 |-------|-------------|
-| ![Gantt Chart](./Gantt%20Chart.png) | Project Plan Timeline (Gantt Chart) |
-| ![Dashboard](./Screenshot%20(582).png) | Dashboard View |
-| ![Scrum 5](./Screenshot%20(583).png) | Scrum 5 Snapshot |
-| ![Scrum 6](./Screenshot%20(584).png) | Scrum 6 Snapshot |
+| ![Dashboard](./image/Screenshot%20(582).png) | Dashboard View |
+| ![Scrum 5](./image/Screenshot%20(583).png) | Scrum 5 Snapshot |
+| ![Scrum 6](./image/Screenshot%20(584).png) | Scrum 6 Snapshot |
 | ![Scrum 7](./Screenshot%20(585).png) | Scrum 7 Snapshot |
 | ![Scrum 8](./Screenshot%20(586).png) | Scrum 8 Snapshot |
 | ![Scrum 9](./Screenshot%20(587).png) | Scrum 9 Snapshot |
