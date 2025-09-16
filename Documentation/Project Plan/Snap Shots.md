@@ -11,13 +11,13 @@ They include dashboard screenshot, and Scrum snapshots (Sprint 5 to Sprint 11).
 |-------|-------------|
 | ![Dashboard](./image/Screenshot%20(582).png) | Dashboard View |
 | ![Scrum 5](./image/Screenshot%20(583).png) | Scrum 5 Snapshot |
-| ![Scrum 6](./image/Screenshot%20(584).png) | Scrum 6 Snapshot |
-| ![Scrum 7](./image/Screenshot%20(585).png) | Scrum 7 Snapshot |
-| ![Scrum 8](./image/Screenshot%20(586).png) | Scrum 8 Snapshot |
-| ![Scrum 9](./image/Screenshot%20(587).png) | Scrum 9 Snapshot |
-| ![Scrum 10](./image/Screenshot%20(588).png) | Scrum 10 Snapshot |
-| ![Scrum 11](./image/Screenshot%20(589).png) | Scrum 11 Snapshot |
-| ![Extra Screenshot](./image/Screenshot%20(590).png) | Additional Screenshot (Optional – describe purpose here) |
+| ![Scrum 6](./image/Screenshot%20(584).png) | Scrum 5 Snapshot |
+| ![Scrum 7](./image/Screenshot%20(585).png) | Scrum 6 Snapshot |
+| ![Scrum 8](./image/Screenshot%20(586).png) | Scrum 7 Snapshot |
+| ![Scrum 9](./image/Screenshot%20(587).png) | Scrum 8 Snapshot |
+| ![Scrum 10](./image/Screenshot%20(588).png) | Scrum 9 Snapshot |
+| ![Scrum 11](./image/Screenshot%20(589).png) | Scrum 10 Snapshot |
+| ![Extra Screenshot](./image/Screenshot%20(590).png) | Scrum 11 Snapshot |
 
 ---
 
