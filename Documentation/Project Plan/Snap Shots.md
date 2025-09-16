@@ -20,8 +20,3 @@ They include dashboard screenshot, and Scrum snapshots (Sprint 5 to Sprint 11).
 | ![Extra Screenshot](./image/Screenshot%20(590).png) | Scrum 11 Snapshot |
 
 ---
-
-## Notes
-- Use descriptive captions when referencing these images in documents.  
-- Ensure proper image linking in markdown (`./image/filename.png`) when embedding in project docs.  
-- Add future screenshots with clear names like `Scrum_12.png` or `Dashboard_v2.png` for easy reference.
