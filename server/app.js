@@ -6,6 +6,7 @@ const app = express();
 require("./config/db");
 const mongoose = require("mongoose");
 
+const authRoutes = require("./routes/authRoutes");
 
 app.use(
     cors({
@@ -38,6 +39,9 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
+
+// Routes
+app.use("/api/auth", authRoutes);
 
 const port = process.env.PORT || 5000;
 
