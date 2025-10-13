@@ -25,7 +25,62 @@ const BuySellNew = () => {
   const [transactionType, setTransactionType] = useState("Buy");
   const [candleData, setCandleData] = useState("");
 
+  const fetchStockDetails = async (selectedStock) => {
+    if (!selectedStock) return;
+    setLoading(true);
+    try {
+      const response = await getStockDetails(selectedStock.symbol);
+      if (response) setStockDetails(response);
+    } catch (error) {
+      setErrorMessage(error.response?.message || "An error occurred");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchUserBalance = async () => {
+    try {
+      const data = await getUserBalance();
+      if (data) setBalance(data.balance);
+    } catch (error) {
+      setErrorMessage(error.response?.data?.message || "An error occurred");
+    }
+  };
+
+  const fetchStockValue = async (selectedStock) => {
+    try {
+      setLoading(true);
+      const stockData = await closestStockValue(selectedStock.symbol);
+      setStockPrice(
+        stockData.message ? 0 : parseFloat(stockData.data["4. close"])
+      );
+      setCandleData(stockData.dataR);
+      setLoading(false);
+    } catch (error) {
+      setErrorMessage("Error fetching stock price");
+    }
+  };
+
+  useEffect(() => {
+    if (selectedStock) {
+      console.log("selected stock working");
+      fetchStockDetails(selectedStock);
+    }
+  }, [selectedStock, isOpen]);
+
+  useEffect(() => {
+    fetchUserBalance();
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (selectedStock) {
+      console.log("selected stock working");
+      fetchStockValue(selectedStock);
+    }
+  }, [selectedStock]);
+
   return (
+   
 
     <Stack spacing={selectedStock ? 1 : 2} sx={{ width: "90%", px: 0, py: 2 }}>
       <TickerSearch onSelectStock={setSelectedStock} />
