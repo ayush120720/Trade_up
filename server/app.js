@@ -10,12 +10,11 @@ const authRoutes = require("./routes/authRoutes");
 const transactionRoutes = require("./routes/transactionRoutes");
 
 const portfolioRoutes = require("./routes/portfolioRoutes");
+const quizRoutes = require("./routes/quizRoutes");
 
 app.use(
     cors({
-        origin: [
-            "https://paper-lingo.vercel.app/", 
-            "http://localhost:3000"],
+        origin: ["http://localhost:3000"],
         methods: "GET,POST,PUT,DELETE,OPTIONS",
         allowedHeaders: ["Authorization", "Content-Type"],
         credentials: true,
@@ -26,10 +25,7 @@ app.options("*", cors()); // Handle preflight requests
 
 // Ensure CORS headers are set in all responses
 app.use((req, res, next) => {
-    const allowedOrigins = [
-        "https://paper-lingo.vercel.app/",
-        "http://localhost:3000",
-    ];
+    const allowedOrigins = ["http://localhost:3000"];
     const origin = req.headers.origin;
 
     if (allowedOrigins.includes(origin)) {
@@ -54,9 +50,9 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/transaction", transactionRoutes);
 app.use("/api/portfolio", portfolioRoutes);
+app.use("/api/quiz", quizRoutes);
 
-
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8000;
 
 // Start server
 app.listen(port, () => {
