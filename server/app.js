@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 
 const authRoutes = require("./routes/authRoutes");
 const transactionRoutes = require("./routes/transactionRoutes");
-
+const homeRoutes = require("./routes/homeRoutes");
 const portfolioRoutes = require("./routes/portfolioRoutes");
 const quizRoutes = require("./routes/quizRoutes");
 
@@ -50,6 +50,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/transaction", transactionRoutes);
 app.use("/api/portfolio", portfolioRoutes);
+app.use("/api/home", homeRoutes);
 app.use("/api/quiz", quizRoutes);
 
 const port = process.env.PORT || 8000;
@@ -60,3 +61,4 @@ app.listen(port, () => {
 });
 
 module.exports = app;
+
