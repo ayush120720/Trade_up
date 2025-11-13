@@ -7,6 +7,8 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./Theme";
 import { useSelector } from "react-redux";
+import EarnPoints from "./pages/EarnPoints/EarnPoints";
+import LeaderBoard from "./pages/LeaderBoard/Leaderboard";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Portfolio from "./pages/Portfolio/Portfolio";
@@ -29,6 +31,8 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />}>
           <Route path="portfolio" element={<Portfolio />} />
           <Route path="transaction-history" element={<TransactionHistory />} />
+          <Route path="earn-points" element={<EarnPoints />} />
+          <Route path="leaderboard" element={<LeaderBoard />} />
           <Route path="trade" element={<BuySellNew />} />
           <Route path="/profile" element={<Profile />} />
         </Routes>
