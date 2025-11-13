@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignIn from "./pages/Authentication/SignIn";
 import SignUp from "./pages/Authentication/SignUp";
 import Profile from "./pages/Profile/Profile";
+import Home from "./pages/Home/Home";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./Theme";
@@ -14,7 +15,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Portfolio from "./pages/Portfolio/Portfolio";
 import TransactionHistory from "./pages/Transaction/Transaction";
 import BuySellNew from "./pages/Trade/BuySellNew";
-
+import ConfirmPassword from "./components/Authentication/ConfirmPassword";
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -26,9 +27,14 @@ function App() {
         <CssBaseline />
         <Routes>
           <Route path="/signin" element={<SignIn />} />
+          <Route
+              path="/confirmpassword/:id/:token"
+              element={<ConfirmPassword />}
+          />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/" element={<LandingPage />} />
           <Route path="/dashboard" element={<Dashboard />}>
+          <Route path="home" element={<Home />} />
           <Route path="portfolio" element={<Portfolio />} />
           <Route path="transaction-history" element={<TransactionHistory />} />
           <Route path="earn-points" element={<EarnPoints />} />
