@@ -1,0 +1,138 @@
+# 🧪 Test Plan: Trade Up - Paper Trading and Gamification Platform
+
+## 1. Introduction
+
+### 1.1 Purpose
+The purpose of this **Final Test Plan** is to define the scope, approach, resources, and schedule of the testing activities for the **Trade Up** application.  
+This document serves as a comprehensive guide, mapping testing activities to the key user processes and steps within the application.
+
+### 1.2 Scope
+The testing scope covers all core functionalities of the Trade Up application, structured around the following key user processes:
+
+- **User Authentication Process:** Sign Up, Log In, Log Out, Profile Update  
+- **Paper Trading Process:** Stock Search, Buy Transaction, Sell Transaction, Portfolio View, Transaction History  
+- **Gamification Process:** Quiz Attempt, Virtual Currency Earning, Leaderboard Ranking  
+
+### 1.3 Objectives
+The primary objectives of this testing effort are to:
+
+- ✅ Verify that all documented User Stories and Acceptance Criteria are correctly implemented.  
+- ✅ Ensure the application is stable, reliable, and performs efficiently under expected load.  
+- ✅ Confirm the security of user data and transaction processes.  
+- ✅ Identify and document any defects or deviations from the expected behavior.  
+
+---
+
+## 2. Test Strategy: Process-Oriented Approach
+
+### 2.1 Test Levels and Types
+
+| **Test Level** | **Description** | **Focus** |
+|----------------|-----------------|------------|
+| **Unit Testing** | Testing individual components (functions, classes) of the client and server code. | Code correctness, internal logic. |
+| **Integration Testing** | Testing interfaces/interactions between modules (client-server, DB, APIs). | Data flow, API contract adherence. |
+| **System Testing** | End-to-end testing of the fully integrated application. | Functional & non-functional requirements. |
+| **User Acceptance Testing (UAT)** | Final testing by end-users/stakeholders. | Usability, business process validation. |
+
+#### Test Types
+- **Functional Testing:** Verify features (Authentication, Trading, Quizzes, Leaderboard).  
+- **Security Testing:** Validate secure handling of credentials and data protection.  
+- **Performance Testing:** Measure responsiveness and stability under load.  
+- **Usability Testing:** Assess user interface intuitiveness and navigation.  
+
+---
+
+### 2.2 Detailed Testing Processes and Steps
+
+#### **Process 1: User Authentication and Profile Management**
+
+| **Process Step** | **Description** | **Key Test Focus** |
+|------------------|-----------------|--------------------|
+| **P1.1: Registration** | User provides email and password to create an account. | Data validation, unique email, account creation success. |
+| **P1.2: Login** | User provides credentials to access account. | Credential validation, JWT token, dashboard redirection. |
+| **P1.3: Logout** | User terminates the session. | Token invalidation, secure logout, redirect to login. |
+| **P1.4: Profile Update** | User updates personal info or password. | Data persistence, password security, immediate updates. |
+
+---
+
+#### **Process 2: Paper Trading Simulation**
+
+| **Process Step** | **Description** | **Key Test Focus** |
+|------------------|-----------------|--------------------|
+| **P2.1: Stock Search** | User searches for a stock by ticker. | API connectivity (Alpha Vantage), data retrieval, invalid ticker handling. |
+| **P2.2: Buy Transaction** | User buys a stock. | Balance check, portfolio update, transaction log. |
+| **P2.3: Sell Transaction** | User sells an owned stock. | Ownership validation, balance update, transaction log. |
+| **P2.4: Portfolio View** | User views current holdings and balance. | Accurate calculations, correct display. |
+| **P2.5: History Tracking** | User views past transactions. | Complete, accurate record of trades. |
+
+---
+
+#### **Process 3: Gamification and Leaderboard**
+
+| **Process Step** | **Description** | **Key Test Focus** |
+|------------------|-----------------|--------------------|
+| **P3.1: Quiz Attempt** | User starts and answers quiz. | Random questions, answer submission, correct display. |
+| **P3.2: Reward Earning** | User earns currency for correct answers. | Reward calculation, wallet update. |
+| **P3.3: Leaderboard Update** | User’s score is ranked. | Score logic, ranking accuracy, real-time updates. |
+
+---
+
+## 3. Test Environment
+
+### 3.1 Hardware and Software Requirements
+
+| **Component** | **Requirement** |
+|---------------|-----------------|
+| **Client** | Modern web browser (Chrome, Firefox, Edge) |
+| **Server** | Node.js environment, MongoDB database |
+| **External Services** | Alpha Vantage API (for stock data) |
+
+---
+
+### 3.2 Test Data Management
+Test data will include:
+
+- Valid and invalid credentials for signup/login  
+- Sufficient and insufficient virtual balances  
+- Edge cases for stock quantities (zero, large numbers)  
+- Quiz questions with correct and incorrect answers  
+
+---
+
+## 4. Roles and Responsibilities
+
+| **Role** | **Responsibilities** |
+|-----------|----------------------|
+| **Test Lead** | Test planning, resource allocation, reporting. |
+| **Test Engineer** | Test case design, execution, defect reporting, re-testing. |
+| **Developer** | Unit testing, defect fixing, technical support. |
+
+---
+
+## 5. Test Deliverables
+The following artifacts will be produced during testing:
+
+- 🧾 **Test Plan** (This document)  
+- 🧩 **Test Cases** (Detailed execution steps)  
+- 📊 **Test Summary Report** (Execution status, defect metrics, sign-off)  
+
+---
+
+## 6. Exit Criteria
+Testing will be considered complete when:
+
+- ✅ All high-priority and critical test cases have passed.  
+- ✅ All critical and major defects are fixed and re-tested.  
+- ✅ Minimum 95% test coverage of core functionalities is achieved.  
+- ✅ Test Summary Report is reviewed and approved by stakeholders.  
+
+---
+
+### 📅 Summary
+This plan ensures that all aspects of **Trade Up’s** authentication, trading, and gamification workflows are verified, validated, and optimized for quality and reliability.
+
+---
+
+> 🧠 **Maintained by:** Trade Up QA Team  
+> 🧰 **Tech Stack:** Node.js • MongoDB • Alpha Vantage API  
+> 🧍‍♂️ **Authors:** QA & Development Team (Pankaj & Niyati)
