@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignIn from "./pages/Authentication/SignIn";
 import SignUp from "./pages/Authentication/SignUp";
-import Portfolio from "./pages/Portfolio/Portfolio";
+import Profile from "./pages/Profile/Profile";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./Theme";
