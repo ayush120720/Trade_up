@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignIn from "./pages/Authentication/SignIn";
 import SignUp from "./pages/Authentication/SignUp";
+import Profile from "./pages/Profile/Profile";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./Theme";
@@ -22,16 +23,14 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Routes>
-        
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/" element={<LandingPage />} />
-         <Route path="/dashboard" element={<Dashboard />}>
-            <Route path="portfolio" element={<Portfolio />} />
-            <Route path="transaction-history" element={<TransactionHistory />} />
-            <Route path="trade" element={<BuySellNew />} />
-          </Route>             
-
+          <Route path="/dashboard" element={<Dashboard />}>
+          <Route path="portfolio" element={<Portfolio />} />
+          <Route path="transaction-history" element={<TransactionHistory />} />
+          <Route path="trade" element={<BuySellNew />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </ThemeProvider>
     </Router>

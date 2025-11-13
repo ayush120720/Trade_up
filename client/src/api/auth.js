@@ -19,3 +19,31 @@ export const loginUser = async (data) => {
     throw new Error(error.response?.data?.message || "Login failed");
   }
 };
+
+export const getProfile = async () => {
+  try {
+    return await apiClient.get("/auth/profile");
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message || "Profile retrieval failed"
+    );
+  }
+};
+
+export const updateProfile = async (userData) => {
+  try {
+    const response = await apiClient.put("/auth/profile", userData);
+    return response.data.user;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || "Profile update failed");
+  }
+};
+
+export const deleteProfile = async () => {
+  try {
+    const response = await apiClient.delete("/auth/profile");
+    return response.data.message;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || "Profile deletion failed");
+  }
+};
