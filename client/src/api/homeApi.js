@@ -3,6 +3,7 @@ import apiClient from "../services/apiClient";
 export const fetchNews = async () => {
   try {
     const response = await apiClient.get('/home/news');
+    console.log("News fetched successfully:", response);
     return response.data;
   } catch (error) {
     console.error("Error while fetching news: ", error);

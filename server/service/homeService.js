@@ -8,8 +8,8 @@ const fetchNews = async () => {
     const response = await axios.get('https://www.alphavantage.co/query', {
       params: {
         function: "NEWS_SENTIMENT",
-        sort: "LATEST",
-        topics: "finance", 
+        sort: "RELEVANCE",
+        topics: "financial_markets", 
         limit: 8,
         apikey: apiKey,
       }

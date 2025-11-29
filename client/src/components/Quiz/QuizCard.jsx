@@ -132,37 +132,32 @@ const QuizCard = ({ questions, score, setScore, setShowScore }) => {
                   whileTap={{ scale: 0.98 }}
                 >
                   <Button
-                    fullWidth
-                    variant="contained"
-                    onClick={() => handleOptionClick(index)}
-                    sx={{
-                      textTransform: "none",
-                      justifyContent: "flex-start",
-                      px: 3,
-                      py: 1.5,
-                      borderRadius: 3,
-                      fontSize: 16,
-                      fontWeight: 500,
-                      backgroundColor: isCorrect
-                        ? "success.main"
-                        : isWrong
-                        ? "error.main"
-                        : isSelected
-                        ? theme.palette.primary.light
-                        : theme.palette.grey[200],
-                      color: isSelected ? "#fff" : theme.palette.text.primary,
-                      boxShadow: isSelected
-                        ? "0px 4px 12px rgba(0,0,0,0.2)"
-                        : "none",
-                      "&:hover": {
-                        backgroundColor: isSelected
-                          ? theme.palette.primary.main
-                          : theme.palette.grey[300],
-                      },
-                    }}
-                  >
-                    {String.fromCharCode(65 + index)}. {choice}
-                  </Button>
+  fullWidth
+  variant="contained"
+  onClick={() => handleOptionClick(index)}
+  sx={{
+    textTransform: "none",
+    justifyContent: "flex-start",
+    px: 3,
+    py: 1.5,
+    borderRadius: 3,
+    fontSize: 16,
+    fontWeight: 500,
+    backgroundColor: isSelected
+      ? theme.palette.primary.light
+      : theme.palette.grey[200],
+    color: isSelected ? "#fff" : theme.palette.text.primary,
+    boxShadow: isSelected ? "0px 4px 12px rgba(0,0,0,0.2)" : "none",
+    "&:hover": {
+      backgroundColor: isSelected
+        ? theme.palette.primary.main
+        : theme.palette.grey[300],
+    },
+  }}
+>
+  {String.fromCharCode(65 + index)}. {choice}
+</Button>
+
                 </motion.div>
               );
             })}
@@ -221,4 +216,4 @@ const QuizCard = ({ questions, score, setScore, setShowScore }) => {
   );
 };
 
-export default QuizCard;
+export default QuizCard;

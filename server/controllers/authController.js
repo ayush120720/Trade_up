@@ -190,36 +190,38 @@ exports.forgotPassword = async (req, res) => {
       expiresIn: "5m",
     });
 
-    const forgotLink = `http://localhost:3000/confirmpassword/${oldUser._id}/${token}`;
+    const forgotLink = `${req.protocol}://${req.get(
+      "host"
+    )}/api/auth/reset-password/${oldUser._id}/${token}`;
 
     var transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "viraguber2@gmail.com",
+        user: "viraguber3@gmail.com",
         pass: "Uber@12321",
       },
     });
 
     var mailOptions = {
-      from: "viraguber2@gmail.com",
+      from: "viraguber3@gmail.com",
       to: email,
-      subject: "Sending Email using Node.js",
+      subject: "Password reset",
       text:
-        "This is the link to reset your password. If this was not you, please report!" +
+        "This is the link to reset your password. If this was not you, please report!\n\n" +
         forgotLink,
+      html: `<p>This is the link to reset your password. If this was not you, please report!</p><p><a href="${forgotLink}">${forgotLink}</a></p>`,
     };
 
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("Email sent: " + info.response);
-      }
-    });
+    // await and return a response to caller
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent: " + info.response);
 
-    console.log(forgotLink);
+    return res
+      .status(200)
+      .json({ message: "Recovery email sent", preview: info.response });
   } catch (err) {
-    console.log("Forgot Password failed with error: " + err);
+    console.error("Forgot Password failed:", err);
+    return res.status(500).json({ message: "Server error sending email" });
   }
 };
 

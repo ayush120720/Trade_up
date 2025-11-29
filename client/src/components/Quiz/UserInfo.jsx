@@ -118,7 +118,7 @@ const UserInfo = ({ name, points, balance, ranking, loading }) => {
         </CardContent>
 
         {/* Button */}
-        <Box textAlign="center" mt={2}>
+        {/* <Box textAlign="center" mt={2}>
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Button
               variant="contained"
@@ -130,7 +130,7 @@ const UserInfo = ({ name, points, balance, ranking, loading }) => {
               Edit Profile
             </Button>
           </motion.div>
-        </Box>
+        </Box> */}
       </Card>
     </motion.div>
   );

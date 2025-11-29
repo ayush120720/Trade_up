@@ -25,6 +25,7 @@ const getNews = async (req, res) => {
     if (!newsCache.articles.length || isCacheExpired(newsCache.lastFetchTime, CACHE_EXPIRY_ONE_HOUR)) {
         try {
             const articles = await fetchNews();
+            console.log("Fetched news articles:", articles);
             newsCache = {
                 lastFetchTime: Date.now(),
                 articles: articles.slice(0, 6)

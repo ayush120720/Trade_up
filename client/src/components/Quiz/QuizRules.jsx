@@ -82,4 +82,4 @@ const QuizRules = ({ onStart }) => {
   );
 };
 
-export default QuizRules;
+export default QuizRules;
