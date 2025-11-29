@@ -7,7 +7,11 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import MuiCard from "@mui/material/Card";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
 import { styled, useTheme } from "@mui/material/styles";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { registerUser } from "../../api/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -34,6 +38,7 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
   [theme.breakpoints.up("sm")]: {
     padding: theme.spacing(4),
   },
+  position: "relative",
   "&::before": {
     content: '""',
     display: "block",
@@ -46,97 +51,158 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
+// Validation helpers (industry-standard-ish)
+const emailRegex = /^\S+@\S+\.\S+$/;
+const usernameRegex = /^[a-zA-Z0-9_]{3,30}$/; // allow underscores, 3-30 chars
+const nameRegex = /^[a-zA-Z\s.'-]{2,50}$/; // letters, spaces, simple punctuation
+const passwordRules = {
+  minLength: 8,
+  uppercase: /[A-Z]/,
+  lowercase: /[a-z]/,
+  number: /[0-9]/,
+  special: /[!@#$%^&*(),.?":{}|<>]/,
+};
+
 export default function SignUp() {
-  const [emailError, setEmailError] = useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = useState("");
-  const [passwordError, setPasswordError] = useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
-  const [ageError, setAgeError] = useState(false);
-  const [ageErrorMessage, setAgeErrorMessage] = useState("");
-  const [usernameError, setUsernameError] = useState(false);
-  const [usernameErrorMessage, setUsernameErrorMessage] = useState("");
-  const [authError, setAuthError] = useState("");
-  const [nameError, setNameError] = useState(false);
-  const [nameErrorMessage, setNameErrorMessage] = useState("");
-  const navigate = useNavigate();
   const theme = useTheme();
+  const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (!validateInputs()) {
-      return;
-    }
+  // controlled inputs
+  const [form, setForm] = useState({
+    name: "",
+    username: "",
+    age: "",
+    email: "",
+    password: "",
+  });
 
-    const data = new FormData(event.currentTarget);
-    const input = {};
-    input.name = data.get("name");
-    input.age = data.get("age");
-    input.email = data.get("email");
-    input.username = data.get("username");
-    input.password = data.get("password");
-    try {
-      const resp = await registerUser(input);
-      navigate("/signin");
-      console.log(resp);
-    } catch (error) {
-      setAuthError(error);
-      alert(authError);
+  // validation state
+  const [errors, setErrors] = useState({
+    name: "",
+    username: "",
+    age: "",
+    email: "",
+    password: "",
+  });
+
+  const [touched, setTouched] = useState({
+    name: false,
+    username: false,
+    age: false,
+    email: false,
+    password: false,
+  });
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [authError, setAuthError] = useState("");
+
+  // per-field validation (returns error message or empty string)
+  const validateField = (field, value) => {
+    switch (field) {
+      case "name":
+        if (!value) return "Please enter your name.";
+        if (!nameRegex.test(value)) return "Name should be 2–50 letters and may include spaces or .'-";
+        return "";
+      case "username":
+        if (!value) return "Please enter a username.";
+        if (!usernameRegex.test(value))
+          return "Username must be 3–30 characters; letters, numbers and _ allowed.";
+        return "";
+      case "age": {
+        if (!value) return "Please enter your age.";
+        const n = Number(value);
+        if (!Number.isInteger(n)) return "Age must be an integer.";
+        if (n < 13) return "You must be at least 13 years old.";
+        if (n > 120) return "Please enter a realistic age.";
+        return "";
+      }
+      case "email":
+        if (!value) return "Please enter your email.";
+        if (!emailRegex.test(value)) return "Please enter a valid email address.";
+        return "";
+      case "password": {
+        if (!value) return "Please enter a password.";
+        if (value.length < passwordRules.minLength)
+          return `Password must be at least ${passwordRules.minLength} characters.`;
+        if (!passwordRules.uppercase.test(value)) return "Add at least one uppercase letter.";
+        if (!passwordRules.lowercase.test(value)) return "Add at least one lowercase letter.";
+        if (!passwordRules.number.test(value)) return "Add at least one number.";
+        if (!passwordRules.special.test(value)) return "Add at least one special character (e.g. !@#$%).";
+        return "";
+      }
+      default:
+        return "";
     }
   };
 
-  const validateInputs = () => {
-    const email = document.getElementById("email");
-    const password = document.getElementById("password");
-    const username = document.getElementById("username");
-    const name = document.getElementById("name");
-    const age = document.getElementById("age");
-
-    let isValid = true;
-
-    if (!username.value) {
-      setUsernameError(true);
-      setUsernameErrorMessage("Please enter a username.");
-      isValid = false;
-    } else {
-      setUsernameError(false);
-      setUsernameErrorMessage("");
+  // validate all and set errors; returns boolean
+  const validateAll = () => {
+    const nextErrors = {};
+    let valid = true;
+    for (const key of Object.keys(form)) {
+      const err = validateField(key, form[key].trim());
+      nextErrors[key] = err;
+      if (err) valid = false;
     }
+    setErrors(nextErrors);
+    return valid;
+  };
 
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-      setEmailError(true);
-      setEmailErrorMessage("Please enter a valid email address.");
-      isValid = false;
-    } else {
-      setEmailError(false);
-      setEmailErrorMessage("");
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((p) => ({ ...p, [name]: value }));
+    // live-validate if touched
+    if (touched[name]) {
+      setErrors((p) => ({ ...p, [name]: validateField(name, value.trim()) }));
     }
+  };
 
-    if (!password.value || password.value.length < 6) {
-      setPasswordError(true);
-      setPasswordErrorMessage("Password must be at least 6 characters long.");
-      isValid = false;
-    } else {
-      setPasswordError(false);
-      setPasswordErrorMessage("");
-    }
-    if (!name.value || /\d/.test(name.value)) {
-      setNameError(true);
-      setNameErrorMessage("Names should not contain numbers");
-      isValid = false;
-    } else {
-      setNameError(false);
-      setNameErrorMessage("");
-    }
-    if (!age.value || !Number.isInteger(Number(age.value)) || age.value <= 0) {
-      setAgeError(true);
-      setAgeErrorMessage("Please enter a valid age");
-      isValid = false;
-    } else {
-      setAgeError(false);
-      setAgeErrorMessage("");
-    }
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    setTouched((p) => ({ ...p, [name]: true }));
+    setErrors((p) => ({ ...p, [name]: validateField(name, value.trim()) }));
+  };
 
-    return isValid;
+  const handleTogglePassword = () => setShowPassword((s) => !s);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setAuthError("");
+    // Mark all as touched
+    setTouched({ name: true, username: true, age: true, email: true, password: true });
+
+    if (!validateAll()) return;
+
+    // Prepare payload (trim inputs)
+    const payload = {
+      name: form.name.trim(),
+      username: form.username.trim(),
+      age: Number(form.age),
+      email: form.email.trim(),
+      password: form.password,
+    };
+
+    try {
+      setIsSubmitting(true);
+      const resp = await registerUser(payload); // expects backend to validate again
+      // handle success (navigate to signin)
+      navigate("/signin");
+      console.log("register success", resp);
+    } catch (err) {
+      // Map server error to user-friendly message
+      const serverMessage =
+        err?.response?.data?.message || err?.message || "Registration failed. Try again later.";
+      setAuthError(serverMessage);
+      // Optionally map field-level server validation errors if backend returns them
+      // e.g. err.response.data.errors = { email: 'already taken' }
+      if (err?.response?.data?.errors && typeof err.response.data.errors === "object") {
+        setErrors((prev) => ({ ...prev, ...err.response.data.errors }));
+      }
+      window.alert(serverMessage);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -154,6 +220,7 @@ export default function SignUp() {
           >
             Sign up
           </Typography>
+
           <Box
             component="form"
             onSubmit={handleSubmit}
@@ -165,78 +232,117 @@ export default function SignUp() {
               gap: 2,
             }}
           >
+            {/* Name */}
             <TextField
-              error={nameError}
-              helperText={nameErrorMessage}
               id="name"
               name="name"
-              type="name"
               label="Name"
-              autoComplete="name"
-              autoFocus
+              value={form.name}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={Boolean(errors.name)}
+              helperText={errors.name || ""}
               required
               fullWidth
-              variant="outlined"
-              color={nameError ? "error" : "primary"}
+              autoComplete="name"
+              autoFocus
+              inputProps={{ "aria-invalid": Boolean(errors.name) }}
             />
+
+            {/* Username */}
             <TextField
-              error={usernameError}
-              helperText={usernameErrorMessage}
               id="username"
               name="username"
               label="Username"
+              value={form.username}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={Boolean(errors.username)}
+              helperText={errors.username || "3–30 characters. Letters, numbers, and _ allowed."}
               required
               fullWidth
-              variant="outlined"
-              color={usernameError ? "error" : "primary"}
+              inputProps={{ "aria-invalid": Boolean(errors.username) }}
             />
+
+            {/* Age */}
             <TextField
-              error={ageError}
-              helperText={ageErrorMessage}
               id="age"
               name="age"
               label="Age"
+              value={form.age}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={Boolean(errors.age)}
+              helperText={errors.age || ""}
               required
               fullWidth
-              variant="outlined"
-              color={ageError ? "error" : "primary"}
+              inputProps={{ inputMode: "numeric", pattern: "[0-9]*", "aria-invalid": Boolean(errors.age) }}
             />
+
+            {/* Email */}
             <TextField
-              error={emailError}
-              helperText={emailErrorMessage}
               id="email"
               name="email"
               type="email"
               label="Email"
-              autoComplete="email"
+              value={form.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={Boolean(errors.email)}
+              helperText={errors.email || ""}
               required
               fullWidth
-              variant="outlined"
-              color={emailError ? "error" : "primary"}
+              autoComplete="email"
+              inputProps={{ "aria-invalid": Boolean(errors.email) }}
             />
+
+            {/* Password */}
             <TextField
-              error={passwordError}
-              helperText={passwordErrorMessage}
               id="password"
               name="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               label="Password"
-              autoComplete="new-password"
+              value={form.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={Boolean(errors.password)}
+              helperText={
+                errors.password ||
+                `At least ${passwordRules.minLength} chars, include uppercase, lowercase, number and special char.`
+              }
               required
               fullWidth
-              variant="outlined"
-              color={passwordError ? "error" : "primary"}
+              autoComplete="new-password"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                      onClick={handleTogglePassword}
+                      edge="end"
+                      size="large"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              inputProps={{ "aria-invalid": Boolean(errors.password) }}
             />
-            <Button type="submit" fullWidth variant="contained">
-              Sign up
+
+            <Button type="submit" fullWidth variant="contained" disabled={isSubmitting}>
+              {isSubmitting ? "Signing up…" : "Sign up"}
             </Button>
+
+            {authError && (
+              <Typography color="error" role="alert" sx={{ textAlign: "center" }}>
+                {authError}
+              </Typography>
+            )}
+
             <Typography sx={{ textAlign: "center" }}>
               Already have an account?{" "}
-              <Link
-                href="/signin"
-                variant="h5"
-                sx={{ color: theme.palette.primary.main }}
-              >
+              <Link href="/signin" variant="h5" sx={{ color: theme.palette.primary.main }}>
                 Sign in
               </Link>
             </Typography>
