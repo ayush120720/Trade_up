@@ -157,7 +157,7 @@ const EarnPoints = () => {
                     height: "100%",
                     borderRadius: 4,
                     p: 3,
-                    background: linear-gradient(135deg, ${theme.palette.background.paper}, ${theme.palette.grey[100]}),
+                    background: `linear-gradient(135deg, ${theme.palette.background.paper}, ${theme.palette.grey[100]})`,
                     boxShadow: "0 6px 20px rgba(0,0,0,0.08)",
                   }}
                 >
@@ -202,7 +202,7 @@ const EarnPoints = () => {
                     height: "100%",
                     borderRadius: 4,
                     p: 3,
-                    background: linear-gradient(135deg, ${theme.palette.grey[50]}, ${theme.palette.grey[200]}),
+                    background: `linear-gradient(135deg, ${theme.palette.grey[50]}, ${theme.palette.grey[200]})`,
                     boxShadow: "0 6px 20px rgba(0,0,0,0.08)",
                   }}
                 >
@@ -226,7 +226,7 @@ const EarnPoints = () => {
                     height: "100%",
                     borderRadius: 4,
                     p: 3,
-                    background: linear-gradient(135deg, ${theme.palette.background.paper}, ${theme.palette.grey[100]}),
+                    background: `linear-gradient(135deg, ${theme.palette.background.paper}, ${theme.palette.grey[100]})`,
                     boxShadow: "0 6px 20px rgba(0,0,0,0.08)",
                   }}
                 >
@@ -303,4 +303,4 @@ const EarnPoints = () => {
   );
 };
 
-export default EarnPoints;
+export default EarnPoints;

@@ -50,7 +50,7 @@ transactionSchema.pre('save', async function (next) {
     while (!unique) {
         const shortTimestamp = Date.now().toString().slice(-6);
         const randomString = generateRandomString(4);
-        this.transactionId = TXN${shortTimestamp}${randomString};
+        this.transactionId = `TXN${shortTimestamp}${randomString}`;
 
         const existingTransaction = await mongoose.model("Transaction").findOne({ transactionId: this.transactionId });
         unique = !existingTransaction;

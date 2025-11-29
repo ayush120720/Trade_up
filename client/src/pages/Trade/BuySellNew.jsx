@@ -79,8 +79,7 @@ const BuySellNew = () => {
     }
   }, [selectedStock]);
 
-  return (
-   
+  return (   
 
     <Stack spacing={selectedStock ? 1 : 2} sx={{ width: "90%", px: 0, py: 2 }}>
       <TickerSearch onSelectStock={setSelectedStock} />
@@ -125,7 +124,7 @@ const BuySellNew = () => {
                       }}
                     >
                       {stockDetails.totalQuantity > 0
-                        ? Current Holdings: ${stockDetails.totalQuantity}
+                        ? `Current Holdings: ${stockDetails.totalQuantity}`
                         : "You do not own this stock."}
                     </Typography>
                     <Typography sx={{ fontSize: "1.2rem" }}>

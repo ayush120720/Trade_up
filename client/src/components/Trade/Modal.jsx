@@ -73,11 +73,11 @@ export default function Modal({
         transactionData
       );
 
-      console.log(${transactionType} transaction successful:, response.data);
+      console.log(`${transactionType} transaction successful:`, response.data);
       setSnackbarOpen(true);
       onClose();
     } catch (error) {
-      console.error(Error adding ${transactionType} transaction:, error);
+      console.error(`Error adding ${transactionType} transaction:`, error);
     }
   };
 
@@ -127,8 +127,8 @@ export default function Modal({
         >
           <Typography sx={{ fontSize: "1.2rem", fontWeight: 500, mb: 2 }}>
             {transactionType === "Buy"
-              ? Available Balance: $${balance.toFixed(2)}
-              : Available to Sell: ${availableQuantity} shares}
+              ? `Available Balance: $${balance.toFixed(2)}`
+              : `Available to Sell: ${availableQuantity} shares`}
           </Typography>
 
           <Typography sx={{ fontSize: "1.2rem", fontWeight: 500, mb: 3 }}>

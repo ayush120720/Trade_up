@@ -26,24 +26,28 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Routes>
-          <Route path="/signin" element={<SignIn />} />
-          <Route
-              path="/confirmpassword/:id/:token"
-              element={<ConfirmPassword />}
-          />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/dashboard" element={<Dashboard />}>
-          <Route path="home" element={<Home />} />
-          <Route path="portfolio" element={<Portfolio />} />
-          <Route path="transaction-history" element={<TransactionHistory />} />
-          <Route path="earn-points" element={<EarnPoints />} />
-          <Route path="leaderboard" element={<LeaderBoard />} />
-          <Route path="trade" element={<BuySellNew />} />
-          <Route path="/profile" element={<Profile />} />
-        </Routes>
-      </ThemeProvider>
-    </Router>
+                    <Route path="/signin" element={<SignIn />} />
+                    <Route
+                        path="/confirmpassword/:id/:token"
+                        element={<ConfirmPassword />}
+                    />
+                    <Route path="/signup" element={<SignUp />} />
+                    <Route path="/dashboard" element={<Dashboard />}>
+                        <Route path="home" element={<Home />} />
+                        <Route path="portfolio" element={<Portfolio />} />
+                        <Route
+                            path="transaction-history"
+                            element={<TransactionHistory />}
+                        />
+                        <Route path="earn-points" element={<EarnPoints />} />
+                        <Route path="leaderboard" element={<LeaderBoard />} />
+                        <Route path="trade" element={<BuySellNew />} />
+                    </Route>
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/" element={<LandingPage />} />
+                </Routes>
+            </ThemeProvider>
+        </Router>
   );
 }
 

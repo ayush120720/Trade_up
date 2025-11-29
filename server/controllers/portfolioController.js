@@ -44,7 +44,7 @@ const getPortfolioData = async (req, res) => {
                         portfolio[stockName].avgPurchasePrice * quantity;
                 } else {
                     console.warn(
-                        Warning: Sell quantity exceeds available quantity for ${stockName}
+                        `Warning: Sell quantity exceeds available quantity for ${stockName}`
                     );
                     portfolio[stockName].totalQuantity = 0;
                     portfolio[stockName].totalInvested = 0;
@@ -98,11 +98,11 @@ async function getCurrentStockPrice(stockName) {
             const latestPrice = parseFloat(timeSeries[latestTime]["4. close"]);
             return latestPrice;
         } else {
-            throw new Error(No data available for stock: ${stockName});
+            throw new Error(`No data available for stock: ${stockName}`);
         }
     } catch (error) {
-        console.error(
-            Error fetching stock price for ${stockName}:,
+       console.error(
+            `Error fetching stock price for ${stockName}:`,
             error.message
         );
         return null; // Return null or a default price in case of an error

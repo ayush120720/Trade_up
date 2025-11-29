@@ -66,13 +66,13 @@ const QuizCard = ({ questions, score, setScore, setShowScore }) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         sx={{
-          width: "100%", // stretch full width
-          maxWidth: "100%", // remove restrictions
-          minHeight: "100vh", // full height of viewport
-          borderRadius: 0, // no rounding
+          width: "100%",
+          maxWidth: "100%", 
+          minHeight: "100vh",
+          borderRadius: 0,
           padding: 4,
           boxShadow: "none",
-          background: linear-gradient(135deg, ${theme.palette.background.paper}, ${theme.palette.grey[100]}),
+          background: `linear-gradient(135deg, ${theme.palette.background.paper}, ${theme.palette.grey[100]})`,
         }}
       >
         <CardContent>
@@ -108,7 +108,7 @@ const QuizCard = ({ questions, score, setScore, setShowScore }) => {
               borderRadius: 5,
               backgroundColor: theme.palette.grey[300],
               "& .MuiLinearProgress-bar": {
-                background: linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main}),
+                background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                 borderRadius: 5,
               },
             }}
@@ -200,7 +200,7 @@ const QuizCard = ({ questions, score, setScore, setShowScore }) => {
               sx={{
                 px: 4,
                 borderRadius: 3,
-                background: linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main}),
+                background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                 color: "white",
                 fontWeight: "bold",
                 boxShadow: "0px 6px 15px rgba(0,0,0,0.3)",

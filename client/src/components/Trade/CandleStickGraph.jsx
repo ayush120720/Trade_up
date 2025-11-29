@@ -18,7 +18,7 @@ const CandleStickGraph = ({ stockData }) => {
                 maxWidth: "100vw",
                 overflowX: "hidden",
                 height: "40vh",
-                border: 2px solid ${theme.palette.accent.main},
+                border: `2px solid ${theme.palette.accent.main}`,
                 borderRadius: "8px",
                 scrollbarWidth: "thin",
                 "&::-webkit-scrollbar": {

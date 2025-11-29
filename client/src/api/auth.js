@@ -47,3 +47,15 @@ export const deleteProfile = async () => {
     throw new Error(error.response?.data?.message || "Profile deletion failed");
   }
 };
+
+export const forgotPassword = async (data) => {
+  try {
+    const response = await apiClient.post("/auth/forgotpassword", data);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message || "Password could not be changed."
+    );
+  }
+};

@@ -59,7 +59,7 @@ export default function UserStockshare({ portfolioData }) {
           gap: "8px",
           flexGrow: 1,
           overflowY: "auto",
-          border: 2px solid ${theme.palette.primary.main},
+          border: `2px solid ${theme.palette.primary.main}`,
           borderRadius: 0,
         }}
       >
@@ -154,7 +154,7 @@ export default function UserStockshare({ portfolioData }) {
                     variant="determinate"
                     value={stock.percentage}
                     sx={{
-                      [& .${linearProgressClasses.bar}]: {
+                      [`& .${linearProgressClasses.bar}`]: {
                         backgroundColor: stock.color,
                       },
                       height: 6,

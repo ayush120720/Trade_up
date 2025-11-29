@@ -24,7 +24,7 @@ export default function PageViewsBarChart({ rows }) {
         // variant="outlined"
         sx={{
           width: "100%",
-          border: 2px solid ${theme.palette.primary.main},
+          border: `2px solid ${theme.palette.primary.main}`,
           borderRadius: 0,
         }}
       >

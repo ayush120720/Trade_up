@@ -6,6 +6,7 @@ import { styled, useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useDispatch } from "react-redux";
 import { toggleSidebar } from "../../redux/SidebarSlice";
+import { toggleMobileMenu } from "../../redux/MobileMenuSlice";
 import { LightModeOutlined, DarkModeOutlined } from "@mui/icons-material";
 import { setMode } from "../../redux/DarkModeSlice";
 import EmojiObjectsIcon from "@mui/icons-material/EmojiObjects";
@@ -25,6 +26,7 @@ export default function Header() {
   const [hovered, setHovered] = useState(false);
 
   const handleSidebarToggle = () => dispatch(toggleSidebar());
+  const handleMobileMenuToggle = () => dispatch(toggleMobileMenu());
 
   const logoText = "TradeUp";
 
@@ -45,7 +47,8 @@ export default function Header() {
               size="large"
               edge="start"
               onClick={() => {
-                handleSidebarToggle();
+                if (window.innerWidth < 900) handleMobileMenuToggle();
+                else handleSidebarToggle();
               }}
               sx={{ color: theme.palette.text.primary }}
             >

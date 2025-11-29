@@ -40,7 +40,7 @@ exports.getStockBalance = async (req, res) => {
 
         if (transactions.length === 0) {
             return res.status(200).json({
-                message: You do not own this stock,
+                message: `You do not own this stock`,
             });
         }
 

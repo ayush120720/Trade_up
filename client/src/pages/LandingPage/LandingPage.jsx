@@ -101,10 +101,39 @@ const LandingPage = () => {
           top: 0,
           zIndex: 100,
           backgroundColor: "#fff",
-          borderBottom: 2px solid ${theme.palette.primary.main},
+          borderBottom: `2px solid ${theme.palette.primary.main}`,
         }}
       >
-       
+        {/* <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            cursor: "pointer",
+          }}
+          onClick={() => navigate("/")}
+        >
+          <motion.img
+            src={headerImage}
+            alt="logo"
+            initial={{ scale: 0.8, rotate: -10 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ type: "spring", stiffness: 200, damping: 12 }}
+            style={{ width: 40, borderRadius: "50%" }}
+          />
+          <motion.span
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            style={{
+              color: theme.palette.primary.main,
+              fontWeight: "bold",
+              fontSize: "1.5rem",
+            }}
+          >
+            TradeUp
+          </motion.span>
+        </Box> */}
         <Box
           sx={{
             display: "flex",
@@ -165,7 +194,7 @@ const LandingPage = () => {
           {["Features", "How It Works", "Benefits", "FAQ"].map((text) => (
             <a
               key={text}
-              href={#${text.toLowerCase().replace(/ /g, "-")}}
+              href={`#${text.toLowerCase().replace(/ /g, "-")}`}
               style={{
                 textDecoration: "none",
                 color: theme.palette.primary.main,
@@ -255,7 +284,7 @@ const LandingPage = () => {
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "center",
-                      border: 2px solid ${theme.palette.primary.main},
+                      border: `2px solid ${theme.palette.primary.main}`,
                       boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
                     }}
                   >
@@ -353,11 +382,9 @@ const LandingPage = () => {
             ))}
           </ol>
         </div>
-      </section>  
-      
-      
-      
-          {/* Benefits */}
+      </section>
+
+      {/* Benefits */}
       <section id="benefits" style={{ padding: "4rem 2rem" }}>
         <h1 style={{ textAlign: "center", color: theme.palette.primary.main }}>
           Benefits
@@ -397,7 +424,7 @@ const LandingPage = () => {
               transition={{ delay: index * 0.2 }}
               style={{
                 backgroundColor: "#fff",
-                border: 2px solid ${theme.palette.primary.main},
+                border: `2px solid ${theme.palette.primary.main}`,
                 borderRadius: 12,
                 padding: "2rem",
                 width: "250px",
@@ -457,7 +484,7 @@ const LandingPage = () => {
                   justifyContent: "space-between",
                   alignItems: "center",
                   padding: "1rem",
-                  border: 1px solid ${theme.palette.primary.main},
+                  border: `1px solid ${theme.palette.primary.main}`,
                   borderRadius: 8,
                   backgroundColor: "#fff",
                 }}
@@ -479,7 +506,7 @@ const LandingPage = () => {
                   className="faq-answer"
                   style={{
                     padding: "1rem",
-                    border: 1px solid ${theme.palette.primary.main},
+                    border: `1px solid ${theme.palette.primary.main}`,
                     borderTop: "none",
                     borderRadius: "0 0 8px 8px",
                     backgroundColor: "#fff",
@@ -511,4 +538,4 @@ const LandingPage = () => {
   );
 };
 
-export default LandingPage;
+export default LandingPage;

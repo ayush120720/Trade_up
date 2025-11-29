@@ -67,6 +67,6 @@ export const fetchLeaderBoard = async () => {
     return response;
   } catch (error) {
     console.error("Error while retrieving leaderboard: ", error);
-    throw error; 
-  }
+    throw error; 
+  }
 };

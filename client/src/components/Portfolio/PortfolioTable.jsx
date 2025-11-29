@@ -42,36 +42,6 @@ export default function PortfolioTable({ rows }) {
       transition={{ duration: 0.6 }}
     >
       <Box sx={{ width: "100%" }}>
-        {/* <DataGrid
-          autoHeight
-          rows={rows}
-          columns={columns}
-          disableSelectionOnClick
-          getRowId={(row) => row.id}
-          initialState={{
-            pagination: { paginationModel: { pageSize: 20 } },
-          }}
-          pageSizeOptions={[10, 20, 30]}
-          density="comfortable"
-          sx={{
-            border: 2px solid ${theme.palette.primary.main},
-            borderRadius: 0,
-            backgroundColor: "#fff",
-            "& .MuiDataGrid-columnHeaders": {
-              fontWeight: "bold",
-              color: theme.palette.primary.main,
-              backgroundColor: theme.palette.grey[100],
-            },
-            "& .MuiDataGrid-cell": {
-              fontSize: "0.95rem",
-            },
-            "& .MuiDataGrid-row:hover": {
-              backgroundColor: theme.palette.action.hover,
-              transform: "scale(1.01)",
-              transition: "all 0.2s ease-in-out",
-            },
-          }}
-        /> */}
         <DataGrid
           autoHeight
           rows={rows}
@@ -84,18 +54,18 @@ export default function PortfolioTable({ rows }) {
           pageSizeOptions={[10, 20, 30]}
           density="comfortable"
           sx={{
-            border: 2px solid ${theme.palette.primary.main},
+            border: `2px solid ${theme.palette.primary.main}`,
             borderRadius: 0,
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.text.primary,
+            backgroundColor: theme.palette.background.alt, // ✅ theme aware
+            color: theme.palette.text.primary, // ✅ theme-aware text
             "& .MuiDataGrid-columnHeaders": {
               fontWeight: "bold",
-              color: theme.palette.text.primary,
-              backgroundColor: theme.palette.background.default,
+              color: theme.palette.text.primary, // ✅ text color
+              backgroundColor: theme.palette.background.default, // ✅ header bg
             },
             "& .MuiDataGrid-cell": {
               fontSize: "0.95rem",
-              color: theme.palette.text.primary,
+              color: theme.palette.text.primary, // ✅ cell text color
             },
             "& .MuiDataGrid-row:hover": {
               backgroundColor: theme.palette.action.hover,

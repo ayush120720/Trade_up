@@ -30,8 +30,8 @@ const StyledCard = styled(Card)(({ theme }) => ({
   // background: linear-gradient(135deg, #f9fafb, ${theme.palette.grey[100]}),
   background:
     theme.palette.mode === "dark"
-      ? linear-gradient(135deg, ${theme.palette.background.alt}, ${theme.palette.background.default})
-      : linear-gradient(135deg, #f9fafb, ${theme.palette.grey[100]}),
+      ? `linear-gradient(135deg, ${theme.palette.background.alt}, ${theme.palette.background.default})`
+      : `linear-gradient(135deg, #f9fafb, ${theme.palette.grey[100]})`,
 }));
 
 const PodiumBox = styled(Box)(() => ({
@@ -50,8 +50,8 @@ const PlayerCard = styled(motion.div)(({ theme }) => ({
   marginBottom: "12px",
   background:
     theme.palette.mode === "dark"
-      ? linear-gradient(145deg, ${theme.palette.background.alt}, ${theme.palette.background.default})
-      : linear-gradient(145deg, #ffffff, #f3f4f6),
+      ? `linear-gradient(145deg, ${theme.palette.background.alt}, ${theme.palette.background.default})`
+      : `linear-gradient(145deg, #ffffff, #f3f4f6)`,
   boxShadow:
     theme.palette.mode === "dark"
       ? "0 4px 12px rgba(255,255,255,0.05)"
@@ -234,19 +234,6 @@ const Leaderboard = () => {
                       }}
                     >
                       <Box display="flex" alignItems="center" gap={2}>
-                        {/* <Typography
-                          fontWeight="700"
-                          fontSize={20}
-                          color="primary"
-                        >
-                          {row.index === 1
-                            ? "🥇"
-                            : row.index === 2
-                            ? "🥈"
-                            : row.index === 3
-                            ? "🥉"
-                            : #${row.index}}
-                        </Typography> */}
                         <Typography
                           fontWeight="700"
                           fontSize={20}
@@ -258,7 +245,7 @@ const Leaderboard = () => {
                             ? "🥈"
                             : row.index === 3
                             ? "🥉"
-                            : #${row.index}}
+                            : `#${row.index}`}
                         </Typography>
                         <Avatar src={row.avatar} alt={row.username} />
 
@@ -268,12 +255,6 @@ const Leaderboard = () => {
                         >
                           {row.username}
                         </Typography>
-                        {/* <Typography
-                          fontWeight="700"
-                          color={theme.palette.text.secondary}
-                        >
-                          {row.points} pts
-                        </Typography> */}
                       </Box>
                       <Typography
                         fontWeight="700"
@@ -297,4 +278,4 @@ const Leaderboard = () => {
   );
 };
 
-export default Leaderboard;
+export default Leaderboard;

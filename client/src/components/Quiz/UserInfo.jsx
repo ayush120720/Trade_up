@@ -101,7 +101,7 @@ const UserInfo = ({ name, points, balance, ranking, loading }) => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.7 }}
               >
-                💰 Balance: {balance != null ? $${balance} : "N/A"}
+                💰 Balance: {balance != null ? `$${balance}` : "N/A"}
               </MotionTypography>
 
               <MotionTypography
@@ -136,4 +136,4 @@ const UserInfo = ({ name, points, balance, ranking, loading }) => {
   );
 };
 
-export default UserInfo;
+export default UserInfo;

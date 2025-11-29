@@ -1,62 +1,62 @@
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { useTheme } from "@mui/material/styles";
-import {
-  Box,
-  Grid,
-  Typography,
-  Stack,
-} from "@mui/material";
-
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import Stack from "@mui/material/Stack";
 import UserStockshare from "../../components/Portfolio/UserStockshare";
 import PageViewsBarChart from "../../components/Portfolio/PageViewsBarChart";
 import StatCard from "../../components/Portfolio/StatCard";
 import PortfolioTable from "../../components/Portfolio/PortfolioTable";
 import apiClient from "../../services/apiClient";
+import { getUserDetails } from "../../api/quizApi";
+import { motion } from "framer-motion";
+import { useTheme } from "@mui/material/styles";
 
 const MotionBox = motion(Box);
 
 const Portfolio = () => {
   const theme = useTheme();
   const [balance, setBalance] = useState(0);
+  const [rank, setRank] = useState(0);
   const [portfolioData, setPortfolioData] = useState([]);
 
-  // ✅ Fetch user balance
-  async function fetchUserBalance() {
-    try {
-      const response = await apiClient.get("/auth/profile");
-      setBalance(response.data.balance || 0);
-    } catch (error) {
-      console.error("Error fetching user balance:", error);
-    }
-  }
-
-  // ✅ Fetch portfolio data
-  async function fetchPortfolioData() {
-    try {
-      const response = await apiClient.get("/portfolio/portfolio");
-      const formattedData = response.data.map((item, index) => ({
-        id: index + 1,
-        stockName: item.stockName,
-        totalQuantity: item.totalQuantity,
-        avgPurchasePrice: item.avgPurchasePrice,
-        currentStockPrice: item.currentStockPrice,
-        gainLossPercentage: item.gainLossPercentage,
-        totalPortfolioValue: item.totalPortfolioValue,
-      }));
-      setPortfolioData(formattedData);
-    } catch (error) {
-      console.error("Error fetching portfolio data:", error);
-    }
-  }
-
   useEffect(() => {
+    async function fetchUserData() {
+      try {
+        const response = await getUserDetails();
+        setBalance(Number(response.data.balance).toFixed(2));
+        setRank(response.data.userRank);
+      } catch (error) {
+        console.error("Error fetching user stats:", error);
+      }
+    }
+
+    async function fetchPortfolioData() {
+      try {
+        const response = await apiClient.get("/portfolio/portfolio");
+        const portfolioData = response.data.map((item, index) => ({
+          id: index + 1,
+          stockName: item.stockName,
+          totalQuantity: item.totalQuantity,
+          avgPurchasePrice: item.avgPurchasePrice,
+          currentStockPrice: item.currentStockPrice,
+          gainLossPercentage: item.gainLossPercentage,
+          totalPortfolioValue: item.totalPortfolioValue,
+        }));
+        setPortfolioData(portfolioData);
+      } catch (error) {
+        console.error("Error fetching portfolio data:", error);
+      }
+    }
+
+    fetchUserData();
     fetchPortfolioData();
-    fetchUserBalance();
   }, []);
 
-  // ✅ Calculations
+  // Calculate User Gain/Loss based on initial 10000 points
   const gainLoss = (balance - 10000).toFixed(2);
+
+  // Calculate Overall Portfolio Value
   const overallPortfolioValue = portfolioData
     .reduce((acc, item) => acc + item.totalPortfolioValue, 0)
     .toFixed(2);
@@ -69,7 +69,7 @@ const Portfolio = () => {
         padding: 2,
       }}
     >
-      {/* 🔥 Overview Heading */}
+      {/* 🔥 Animated Overview Heading */}
       <Box mb={3}>
         <motion.div
           initial={{ opacity: 0, y: -30 }}
@@ -96,7 +96,6 @@ const Portfolio = () => {
         </motion.div>
       </Box>
 
-      {/* 💰 Stats Section */}
       <Box
         sx={{
           display: "flex",
@@ -106,8 +105,8 @@ const Portfolio = () => {
       >
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2} sx={{ mb: 2 }}>
-            {/* 💰 Total Portfolio */}
-            <Grid item xs={12} sm={6}>
+            {/* 🎯 Animated Stat Cards */}
+            <Grid item xs={12} sm={6} md={4}>
               <MotionBox
                 whileHover={{
                   scale: 1.05,
@@ -115,6 +114,7 @@ const Portfolio = () => {
                 }}
                 transition={{ type: "spring", stiffness: 200 }}
                 sx={{
+                  // borderRadius: 3,
                   p: 1,
                   background: theme.palette.background.alt,
                   border: `2px solid ${theme.palette.primary.main}`,
@@ -128,8 +128,7 @@ const Portfolio = () => {
               </MotionBox>
             </Grid>
 
-            {/* 📊 Profit / Loss */}
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6} md={4}>
               <MotionBox
                 whileHover={{
                   scale: 1.05,
@@ -137,6 +136,7 @@ const Portfolio = () => {
                 }}
                 transition={{ type: "spring", stiffness: 200 }}
                 sx={{
+                  // borderRadius: 3,
                   p: 1,
                   background: theme.palette.background.alt,
                   border: `2px solid ${gainLoss >= 0 ? "#4caf50" : "#f44336"}`,
@@ -149,9 +149,29 @@ const Portfolio = () => {
                 />
               </MotionBox>
             </Grid>
+
+            <Grid item xs={12} sm={6} md={4}>
+              <MotionBox
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
+                }}
+                transition={{ type: "spring", stiffness: 200 }}
+                sx={{
+                  p: 1,
+                  border: `2px solid ${theme.palette.primary.main}`,
+                  background: theme.palette.background.alt, // ✅ theme-aware
+                }}
+              >
+                <StatCard
+                  title="💰 Total Portfolio"
+                  value={`$${overallPortfolioValue}`}
+                  valueColor={theme.palette.text.primary} // ✅ ensure number text visible
+                />
+              </MotionBox>
+            </Grid>
           </Grid>
 
-          {/* 📊 Portfolio Charts */}
           <Box
             sx={{
               display: "flex",
@@ -165,7 +185,6 @@ const Portfolio = () => {
           </Box>
         </Box>
 
-        {/* 🧩 Side Section */}
         <Box sx={{ maxWidth: { xs: "100%", lg: "400px" } }}>
           <Stack direction="column" spacing={2}>
             <UserStockshare portfolioData={portfolioData} />
@@ -173,7 +192,7 @@ const Portfolio = () => {
         </Box>
       </Box>
 
-      {/* 🔥 Portfolio Table Heading */}
+      {/* 🔥 Animated Portfolio Table Heading */}
       <Box mt={4} mb={2}>
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -200,7 +219,6 @@ const Portfolio = () => {
         </motion.div>
       </Box>
 
-      {/* 📋 Portfolio Table */}
       <Box sx={{ mt: 2 }}>
         <PortfolioTable rows={portfolioData} />
       </Box>

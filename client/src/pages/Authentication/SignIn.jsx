@@ -8,6 +8,7 @@ import Stack from "@mui/material/Stack";
 import MuiCard from "@mui/material/Card";
 import { styled, useTheme } from "@mui/material/styles";
 import Link from "@mui/material/Link";
+import ForgotPassword from "../../components/Authentication/ForgotPassword";
 import { loginUser } from "../../api/auth";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -55,11 +56,20 @@ export default function SignIn(props) {
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
-  const [ setAuthError] = useState("");
+  const [open, setOpen] = useState(false);
+  const [ authError, setAuthError] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const theme = useTheme();
   
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!validateInputs()) {
@@ -176,9 +186,21 @@ export default function SignIn(props) {
                 justifyContent: "space-between",
               }}
             >
-        
+              <Link
+                component="button"
+                type="button"
+                onClick={handleClickOpen}
+                variant="h6"
+                sx={{
+                  alignSelf: "baseline",
+                  marginBottom: "0.5rem",
+                  color: theme.palette.primary.main,
+                }}
+              >
+                Forgot your password?
+              </Link>
             </Box>
-           
+            <ForgotPassword open={open} handleClose={handleClose} />
             <Button type="submit" fullWidth variant="contained">
               Sign in
             </Button>

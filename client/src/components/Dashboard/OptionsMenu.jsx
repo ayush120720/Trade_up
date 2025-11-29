@@ -35,6 +35,10 @@ function OptionsMenu({ showBadge = false }) {
     setAnchorEl(null);
   };
 
+  const handleProfileClick = () => {
+    handleClose();
+    navigate("/profile");
+  };
 
   const handleLogout = () => {
     removeToken();
@@ -79,7 +83,7 @@ function OptionsMenu({ showBadge = false }) {
           },
         }}
       >
-      
+        <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
         <Divider />
         <MenuItem
           onClick={handleLogout}
