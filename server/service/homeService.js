@@ -3,6 +3,8 @@ require('dotenv').config();
 
 const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
 
+console.log("ALPHA KEY:", apiKey ? "LOADED" : "NOT FOUND");
+
 const fetchNews = async () => {
     try {
         const response = await axios.get('https://www.alphavantage.co/query', {
