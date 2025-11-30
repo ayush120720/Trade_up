@@ -36,34 +36,35 @@ const getNews = async (req, res) => {
 
 
 const getTopGainersLosers = async (req, res) => {
-    try {
-        if (!marketCache.data || isCacheExpired(marketCache.lastFetchTime, CACHE_EXPIRY_ONE_DAY)) {
-            const apiData = await fetchGainersAndLosers();
+    let newData = null;
 
+    if (!marketCache.data || isCacheExpired(marketCache.lastFetchTime, CACHE_EXPIRY_ONE_DAY)) {
+        console.log("⏳ Cache expired or empty — fetching new data...");
+        newData = await fetchGainersAndLosers();
+
+        if (newData) {
             marketCache = {
                 lastFetchTime: Date.now(),
-                data: {
-                    top_gainers: apiData.top_gainers || [],
-                    top_losers: apiData.top_losers || [],
-                    most_actively_traded: apiData.most_actively_traded || []
-                }
+                data: newData
             };
+        } else {
+            console.log("⚠ No valid data received — using cached data");
         }
+    }
 
-        return res.json({
-            top_gainers: marketCache.data.top_gainers.slice(0, 5),
-            top_losers: marketCache.data.top_losers.slice(0, 5),
-            most_actively_traded: marketCache.data.most_actively_traded.slice(0, 5)
-        });
-    } catch (error) {
-        console.error("GAINERS/LOSERS ERROR:", error.message);
-
+    if (!marketCache.data) {
         return res.json({
             top_gainers: [],
             top_losers: [],
             most_actively_traded: []
         });
     }
+
+    res.json({
+        top_gainers: marketCache.data.top_gainers.slice(0, 5),
+        top_losers: marketCache.data.top_losers.slice(0, 5),
+        most_actively_traded: marketCache.data.most_actively_traded.slice(0, 5)
+    });
 };
 
 module.exports = { getNews, getTopGainersLosers };
