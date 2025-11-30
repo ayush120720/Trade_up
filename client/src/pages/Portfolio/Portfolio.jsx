@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
-import UserStockshare from "../../components/Portfolio/UserStockshare";
 import PageViewsBarChart from "../../components/Portfolio/PageViewsBarChart";
 import StatCard from "../../components/Portfolio/StatCard";
 import PortfolioTable from "../../components/Portfolio/PortfolioTable";
@@ -42,6 +40,7 @@ const Portfolio = () => {
           currentStockPrice: item.currentStockPrice,
           gainLossPercentage: item.gainLossPercentage,
           totalPortfolioValue: item.totalPortfolioValue,
+          totalInvested: item.totalInvested, 
         }));
         setPortfolioData(portfolioData);
       } catch (error) {
@@ -53,13 +52,21 @@ const Portfolio = () => {
     fetchPortfolioData();
   }, []);
 
-  // Calculate User Gain/Loss based on initial 10000 points
-  const gainLoss = (balance - 10000).toFixed(2);
 
-  // Calculate Overall Portfolio Value
-  const overallPortfolioValue = portfolioData
-    .reduce((acc, item) => acc + item.totalPortfolioValue, 0)
-    .toFixed(2);
+  const totalInvested = portfolioData.reduce(
+    (sum, item) => sum + (item.totalInvested || 0),
+    0
+  );
+
+  const totalCurrentValue = portfolioData.reduce(
+    (sum, item) => sum + item.totalPortfolioValue,
+    0
+  );
+
+  const netProfitLoss = (totalCurrentValue - totalInvested).toFixed(2);
+
+  // For displaying total portfolio
+  const overallPortfolioValue = totalCurrentValue.toFixed(2);
 
   return (
     <Box
@@ -69,7 +76,7 @@ const Portfolio = () => {
         padding: 2,
       }}
     >
-      {/* 🔥 Animated Overview Heading */}
+      {/* Heading */}
       <Box mb={3}>
         <motion.div
           initial={{ opacity: 0, y: -30 }}
@@ -96,130 +103,65 @@ const Portfolio = () => {
         </motion.div>
       </Box>
 
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: { xs: "column", lg: "row" },
-          gap: 2,
-        }}
-      >
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2} sx={{ mb: 2 }}>
-            {/* 🎯 Animated Stat Cards */}
-            <Grid item xs={12} sm={6} md={4}>
-              <MotionBox
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
-                }}
-                transition={{ type: "spring", stiffness: 200 }}
-                sx={{
-                  // borderRadius: 3,
-                  p: 1,
-                  background: theme.palette.background.alt,
-                  border: `2px solid ${theme.palette.primary.main}`,
-                }}
-              >
-                <StatCard
-                  title="💰 Total Portfolio"
-                  value={`$${overallPortfolioValue}`}
-                  valueColor={theme.palette.text.primary}
-                />
-              </MotionBox>
-            </Grid>
-
-            <Grid item xs={12} sm={6} md={4}>
-              <MotionBox
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
-                }}
-                transition={{ type: "spring", stiffness: 200 }}
-                sx={{
-                  // borderRadius: 3,
-                  p: 1,
-                  background: theme.palette.background.alt,
-                  border: `2px solid ${gainLoss >= 0 ? "#4caf50" : "#f44336"}`,
-                }}
-              >
-                <StatCard
-                  title={gainLoss >= 0 ? "📊 Net Profit" : "📉 Net Loss"}
-                  value={`$${gainLoss}`}
-                  valueColor={theme.palette.text.primary}
-                />
-              </MotionBox>
-            </Grid>
-
-            <Grid item xs={12} sm={6} md={4}>
-              <MotionBox
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
-                }}
-                transition={{ type: "spring", stiffness: 200 }}
-                sx={{
-                  p: 1,
-                  border: `2px solid ${theme.palette.primary.main}`,
-                  background: theme.palette.background.alt, // ✅ theme-aware
-                }}
-              >
-                <StatCard
-                  title="💰 Total Portfolio"
-                  value={`$${overallPortfolioValue}`}
-                  valueColor={theme.palette.text.primary} // ✅ ensure number text visible
-                />
-              </MotionBox>
-            </Grid>
-          </Grid>
-
-          <Box
+      {/* Cards */}
+      <Grid container spacing={2} sx={{ mb: 2 }}>
+        {/* Total Portfolio */}
+        <Grid item xs={12} sm={6} md={4}>
+          <MotionBox
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 200 }}
             sx={{
-              display: "flex",
-              flexDirection: { xs: "column", lg: "row" },
-              gap: 2,
+              p: 1,
+              background: theme.palette.background.alt,
+              border: `2px solid ${theme.palette.primary.main}`,
             }}
           >
-            <Box sx={{ flex: 1, minWidth: "0" }}>
-              <PageViewsBarChart rows={portfolioData} />
-            </Box>
-          </Box>
-        </Box>
+            <StatCard
+              title="💰 Total Portfolio"
+              value={`$${overallPortfolioValue}`}
+            />
+          </MotionBox>
+        </Grid>
 
-        <Box sx={{ maxWidth: { xs: "100%", lg: "400px" } }}>
-          <Stack direction="column" spacing={2}>
-            <UserStockshare portfolioData={portfolioData} />
-          </Stack>
-        </Box>
-      </Box>
-
-      {/* 🔥 Animated Portfolio Table Heading */}
-      <Box mt={4} mb={2}>
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <Typography
-            variant="h4"
-            fontWeight="bold"
-            align="center"
+        {/* Net Profit / Loss */}
+        <Grid item xs={12} sm={6} md={4}>
+          <MotionBox
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 200 }}
             sx={{
-              color: theme.palette.primary.main,
-              letterSpacing: 1,
+              p: 1,
+              background: theme.palette.background.alt,
+              border: `2px solid ${netProfitLoss >= 0 ? "#4caf50" : "#f44336"}`,
             }}
           >
-            <motion.span
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.3, type: "spring", stiffness: 220 }}
-            >
-              📊 Portfolio Table
-            </motion.span>
-          </Typography>
-        </motion.div>
-      </Box>
+            <StatCard
+              title={netProfitLoss >= 0 ? "📊 Net Profit" : "📉 Net Loss"}
+              value={`$${netProfitLoss}`}
+            />
+          </MotionBox>
+        </Grid>
 
-      <Box sx={{ mt: 2 }}>
+        {/* Balance */}
+        <Grid item xs={12} sm={6} md={4}>
+          <MotionBox
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 200 }}
+            sx={{
+              p: 1,
+              background: theme.palette.background.alt,
+              border: `2px solid ${theme.palette.primary.main}`,
+            }}
+          >
+            <StatCard title="🏦 Available Balance" value={`$${balance}`} />
+          </MotionBox>
+        </Grid>
+      </Grid>
+
+      {/* Chart */}
+      <PageViewsBarChart rows={portfolioData} />
+
+      {/* Table */}
+      <Box sx={{ mt: 4 }}>
         <PortfolioTable rows={portfolioData} />
       </Box>
     </Box>
