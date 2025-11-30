@@ -12,41 +12,27 @@ const homeRoutes = require("./routes/homeRoutes");
 const portfolioRoutes = require("./routes/portfolioRoutes");
 const quizRoutes = require("./routes/quizRoutes");
 
+const allowedOrigins = [
+    "http://localhost:3000",
+    "https://trade-up-us.vercel.app/"   
+];
+
 app.use(
     cors({
-        origin: ["http://localhost:3000"],
+        origin: function (origin, callback) {
+            if (!origin || allowedOrigins.includes(origin)) {
+                callback(null, true);
+            } else {
+                callback(new Error("Not allowed by CORS"));
+            }
+        },
         methods: "GET,POST,PUT,DELETE,OPTIONS",
-        allowedHeaders: ["Authorization", "Content-Type"],
         credentials: true,
     })
 );
 
-app.options("*", cors()); // Handle preflight requests
-
-// Ensure CORS headers are set in all responses
-app.use((req, res, next) => {
-    const allowedOrigins = ["http://localhost:3000"];
-    const origin = req.headers.origin;
-
-    if (allowedOrigins.includes(origin)) {
-        res.header("Access-Control-Allow-Origin", origin);
-    }
-
-    res.header("Access-Control-Allow-Headers", "Authorization, Content-Type");
-    res.header(
-        "Access-Control-Allow-Methods",
-        "GET, POST, PUT, DELETE, OPTIONS"
-    );
-    next();
-});
-
 app.use(express.json());
 
-//using ejs engine to render the change password form
-// app.set("view engine", "ejs");
-// app.use(express.urlencoded({ extended: false }));
-
-// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/transaction", transactionRoutes);
 app.use("/api/portfolio", portfolioRoutes);
@@ -54,11 +40,8 @@ app.use("/api/home", homeRoutes);
 app.use("/api/quiz", quizRoutes);
 
 const port = process.env.PORT || 8000;
-
-// Start server
 app.listen(port, () => {
     console.log(`Server started on port: ${port}`);
 });
 
 module.exports = app;
-
