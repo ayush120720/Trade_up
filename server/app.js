@@ -3,6 +3,7 @@ const cors = require("cors");
 require("dotenv").config();
 const app = express();
 
+require("./service/homeService");
 require("./config/db");
 const mongoose = require("mongoose");
 
@@ -63,3 +64,4 @@ app.listen(port, () => {
 });
 
 module.exports = app;
+
