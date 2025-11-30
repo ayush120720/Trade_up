@@ -3,7 +3,6 @@ const { fetchNews, fetchGainersAndLosers } = require('../service/homeService');
 const CACHE_EXPIRY_ONE_HOUR = 60 * 60 * 1000;
 const CACHE_EXPIRY_ONE_DAY = 24 * 60 * 60 * 1000;
 
-
 let newsCache = {
     lastFetchTime: null,
     articles: []
@@ -11,9 +10,12 @@ let newsCache = {
 
 let marketCache = {
     lastFetchTime: null,
-    data: null
+    data: {
+        top_gainers: [],
+        top_losers: [],
+        most_actively_traded: []
+    }
 };
-
 
 const isCacheExpired = (lastFetchTime, expiryTime) => {
     const now = Date.now();
@@ -23,7 +25,6 @@ const isCacheExpired = (lastFetchTime, expiryTime) => {
         new Date(now).getDate() !== new Date(lastFetchTime).getDate()
     );
 };
-
 
 const getNews = async (req, res) => {
     try {
@@ -37,22 +38,32 @@ const getNews = async (req, res) => {
         res.json(newsCache.articles);
     } catch (err) {
         console.error("NEWS ERROR:", err.message);
-        res.status(500).json({ error: "Failed to fetch news" });
+        res.json([]);
     }
 };
-
 
 const getTopGainersLosers = async (req, res) => {
     try {
         if (isCacheExpired(marketCache.lastFetchTime, CACHE_EXPIRY_ONE_DAY)) {
             const data = await fetchGainersAndLosers();
 
-            marketCache = {
-                lastFetchTime: Date.now(),
-                data
-            };
+      
+            if (
+                !data ||
+                !Array.isArray(data.top_gainers) ||
+                !Array.isArray(data.top_losers) ||
+                !Array.isArray(data.most_actively_traded)
+            ) {
+                console.warn("⚠ AlphaVantage returned incomplete data — keeping old cache");
+            } else {
+                marketCache = {
+                    lastFetchTime: Date.now(),
+                    data
+                };
+            }
         }
 
+     
         res.json({
             top_gainers: marketCache.data.top_gainers.slice(0, 5),
             top_losers: marketCache.data.top_losers.slice(0, 5),
@@ -61,7 +72,13 @@ const getTopGainersLosers = async (req, res) => {
 
     } catch (err) {
         console.error("MARKET ERROR:", err.message);
-        res.status(500).json({ error: "Failed to fetch market data" });
+
+      
+        res.json({
+            top_gainers: [],
+            top_losers: [],
+            most_actively_traded: []
+        });
     }
 };
 
