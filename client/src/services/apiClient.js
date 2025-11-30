@@ -2,7 +2,7 @@ import axios from "axios";
 import { getToken } from "../auth";
 
 const apiClient = axios.create({
-    baseURL: "http://localhost:5000/api",
+    baseURL: "https://trade-up-pbd0.onrender.com",
 });
 
 apiClient.interceptors.request.use(
