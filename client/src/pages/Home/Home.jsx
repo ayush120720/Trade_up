@@ -1,8 +1,7 @@
 import React from "react";
-import News from "../../components/News/News";
 import MarketOverview from "../../components/TopGainersLosers/MarketOverview";
 import { motion } from "framer-motion";
-import { Box, Typography, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 
 const Home = () => {
   const theme = useTheme();
@@ -18,10 +17,6 @@ const Home = () => {
       {/* 📈 Market Overview */}
       <MarketOverview />
 
-      {/* 📰 News Section */}
-      <Box mt={4}>
-        <News />
-      </Box>
     </motion.div>
   );
 };
