@@ -3,52 +3,47 @@ require('dotenv').config();
 
 const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
 
-console.log("ALPHA KEY:", apiKey ? "LOADED" : "NOT FOUND");
-
 const fetchNews = async () => {
-    try {
-        const response = await axios.get('https://www.alphavantage.co/query', {
-            params: {
-                function: "NEWS_SENTIMENT",
-                sort: "RELEVANCE",
-                topics: "financial_markets",
-                limit: 8,
-                apikey: apiKey,
-            }
-        });
+  try {
+    const response = await axios.get('https://www.alphavantage.co/query', {
+      params: {
+        function: "NEWS_SENTIMENT",
+        sort: "RELEVANCE",
+        topics: "financial_markets", 
+        limit: 8,
+        apikey: apiKey,
+      }
+    });
 
-        return response.data.feed || [];
-    } catch (error) {
-        console.error("NEWS FETCH ERROR:", error.message);
-        return [];
-    }
+    console.log(response.data);
+    return response.data.feed || [];
+    
+  } catch (error) {
+    console.error("Error while getting news: ", error.response ? error.response.data : error.message);
+    throw error;
+  }
 };
 
 const fetchGainersAndLosers = async () => {
-    const url = `https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=${apiKey}`;
+  const url = `https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=${apiKey}`;
 
-    try {
-        const response = await axios.get(url);
+  try {
+    const response = await axios.get(url);
+    const { top_gainers = [], top_losers = [], most_actively_traded = [] } = response.data || {};
 
-        const gainers = response.data.top_gainers || [];
-        const losers = response.data.top_losers || [];
-        const actives = response.data.most_actively_traded || [];
-
-        if (gainers.length && losers.length && actives.length) {
-            console.log("✔ Valid market data received");
-            return {
-                top_gainers: gainers,
-                top_losers: losers,
-                most_actively_traded: actives
-            };
-        }
-
-        console.log("❌ AlphaVantage returned empty or partial market data — keeping old cache");
-        return null; 
-    } catch (error) {
-        console.error("GAINERS/LOSERS FETCH ERROR:", error.message);
-        return null; 
+    if (!top_gainers.length && !top_losers.length) {
+      console.warn("No gainers or losers data available.");
     }
+
+    return {
+      top_gainers,
+      top_losers,
+      most_actively_traded
+    };
+  } catch (error) {
+    console.error("Error fetching gainers and losers:", error.message);
+    throw new Error("Failed to fetch gainers and losers data");
+  }
 };
 
 module.exports = { fetchNews, fetchGainersAndLosers };
