@@ -13,7 +13,6 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-import ForgotPassword from "../../components/Authentication/ForgotPassword";
 import { loginUser } from "../../api/auth";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -75,12 +74,9 @@ export default function SignIn() {
   const [errors, setErrors] = useState({ email: "", password: "" });
   const [touched, setTouched] = useState({ email: false, password: false });
   const [showPassword, setShowPassword] = useState(false);
-  const [openForgot, setOpenForgot] = useState(false);
   const [authError, setAuthError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleClickOpen = () => setOpenForgot(true);
-  const handleClose = () => setOpenForgot(false);
   const handleTogglePassword = () => setShowPassword((s) => !s);
 
   const validateField = (field, value) => {
@@ -236,24 +232,6 @@ export default function SignIn() {
               }}
               inputProps={{ "aria-invalid": Boolean(errors.password) }}
             />
-
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Link
-                component="button"
-                type="button"
-                onClick={handleClickOpen}
-                variant="h6"
-                sx={{
-                  alignSelf: "baseline",
-                  marginBottom: "0.5rem",
-                  color: theme.palette.primary.main,
-                }}
-              >
-                Forgot your password?
-              </Link>
-            </Box>
-
-            <ForgotPassword open={openForgot} handleClose={handleClose} />
 
             <Button type="submit" fullWidth variant="contained" disabled={isSubmitting}>
               {isSubmitting ? "Signing in…" : "Sign in"}
