@@ -30,18 +30,24 @@ const fetchGainersAndLosers = async () => {
     try {
         const response = await axios.get(url);
 
-        return {
-            top_gainers: response.data.top_gainers || [],
-            top_losers: response.data.top_losers || [],
-            most_actively_traded: response.data.most_actively_traded || []
-        };
+        const gainers = response.data.top_gainers || [];
+        const losers = response.data.top_losers || [];
+        const actives = response.data.most_actively_traded || [];
+
+        if (gainers.length && losers.length && actives.length) {
+            console.log("✔ Valid market data received");
+            return {
+                top_gainers: gainers,
+                top_losers: losers,
+                most_actively_traded: actives
+            };
+        }
+
+        console.log("❌ AlphaVantage returned empty or partial market data — keeping old cache");
+        return null; 
     } catch (error) {
         console.error("GAINERS/LOSERS FETCH ERROR:", error.message);
-        return {
-            top_gainers: [],
-            top_losers: [],
-            most_actively_traded: []
-        };
+        return null; 
     }
 };
 
